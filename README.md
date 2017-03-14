@@ -1,52 +1,35 @@
 # webpack2
 starter for webpack2
 
+# remark
+
+  + webpack的`watch`模式： webpack --watch. 如果启用，如果关联的文件有所改动，那webpack将自动重编译
+  + webpack-dev-server(WDS)：基于`watch`模式，并且还有更多的其他的好处
+    - running in-memory
+    - HMR
+  + webpack cli的参数  --env 是有效的，你可以更改配置文件来校验，将配置文件的`module.exports`改为一个方法，如下(具体可见`webpack.config.js`)：
+      ```js
+      module.exports = function(env) {
+        console.log('env', env);
+        return commonConfig;
+      }
+      ```
+      改完配置后，再运行 `build`、`start` 即可看出区别
+
+
+  + webpack2 的`watch`模式暂时不支持监视配置文件的变化，但是一个完美的开发环境应该兼顾这一点，webpack声明将来会支持，暂时使用`nodemon`来做曲线救国(在package.json)：
+    ```js
+      {
+        ...
+        "start": "nodemon --watch webpack.config.js --exec \"webpack-dev-server --env development\""
+      }
+    ```
+
+
+
 # engine
- - 4.6.0
+ - ^4.6.0
 
+# Thanks to
 
-
-
-
-Thanks to
-=========
-
-+ https://survivejs.com/webpack/developing/getting-started/#executing-webpack
-
-
-build
-=====
-`npm run build`
-
-```
-Hash: 95d14bb0031db566529d
-Version: webpack 2.2.1
-Time: 559ms
-     Asset       Size  Chunks             Chunk Names
-    app.js    3.25 kB       0  [emitted]  app
-index.html  182 bytes          [emitted]  
-   [0] ./app/component.js 151 bytes {0} [built]
-   [1] ./app/index.js 76 bytes {0} [built]
-Child html-webpack-plugin for "index.html":
-       [0] ./~/lodash/lodash.js 540 kB {0} [built]
-       [1] (webpack)/buildin/global.js 509 bytes {0} [built]
-       [2] (webpack)/buildin/module.js 517 bytes {0} [built]
-       [3] ./~/html-webpack-plugin/lib/loader.js!./~/html-webpack-plugin/default_index.ejs 538 bytes {0} [built]
-```
-
-remark
-======
-
-+ `nodemon` 和 `webpack-dev-server` 可以删除
-
-+ `node_modules/.bin/webpack` 也可以编译
-
-+ webpack拥有丰富的插件生态系统，很多插件可以帮助我们开发：
-
-  - `case-sensitive-paths-webpack-plugin`  
-  - `npm-install-webpack-plugin`  
-  - `system-bell-webpack-plugin`  
-  - `friendly-errors-webpack-plugin`  
-  - `nyan-progress-webpack-plugin`  
-  - `react-dev-utils`  
-  - `webpack-dashboard`  
++ https://survivejs.com/webpack/developing/automatic-browser-refresh/

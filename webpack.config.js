@@ -7,7 +7,7 @@ const PATHS = {
   build: path.join(__dirname, 'build')
 }
 
-const config = {
+const commonConfig = {
   entry: {
     app: PATHS.app
   },
@@ -22,4 +22,7 @@ const config = {
   ]
 }
 
-module.exports = config
+module.exports = function(env) {
+  console.log('env', env);
+  return commonConfig;
+}
