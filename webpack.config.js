@@ -1,11 +1,11 @@
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require("path")
+const webpack = require("webpack")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 
 const PATHS = {
-  app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
+  app: path.join(__dirname, "app"),
+  build: path.join(__dirname, "build")
 }
 
 const commonConfig = {
@@ -14,18 +14,21 @@ const commonConfig = {
   },
   output: {
     path: PATHS.build,
-    filename: '[name]-[hash].js'
+    filename: "[name]-[hash].js"
+  },
+  module: {
+
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Webpack demo1'
+      title: "Webpack demo1"
     })
   ]
 }
 
 // production 模式下
 function prodConfig() {
-  return commonConfig;
+  return commonConfig
 }
 
 // development 模式下
@@ -42,7 +45,7 @@ function devConfig() {
       hotOnly: true,
 
       // Display only errors to reduce the amount of output.
-      stats: 'errors-only',
+      stats: "errors-only",
 
       // Parse host and port from env to allow customization.
       //
@@ -61,11 +64,43 @@ function devConfig() {
       },
 
     },
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx)$/,
+          enforce: 'pre',
+          exclude: /node_modules/,
+          use: 'eslint-loader'
+        }
+      ]
+    },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),  // --hot 与 HMR-plugin 二选一
-      new webpack.NamedModulesPlugin()  // module 不在是数字id
+      new webpack.NamedModulesPlugin(),  // module 不在是数字id
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          eslint: {
+            // Fail only on errors
+            failOnWarning: false,
+            failOnError: true,
+            // Disable/enable autofixlint
+            fix: false,
+            // output to Jekins compatible xml
+            outputReport: {
+              filePath: 'checkstyle.xml',
+              formatter: require('eslint/lib/formatters/checkstyle')
+            }
+          }
+        }
+      })
     ]
   }
+
+  const module = Object.assign(
+    {},
+    commonConfig.module,
+    config.module
+  )
 
 
 
@@ -74,9 +109,10 @@ function devConfig() {
     commonConfig,
     config,
     {
+      module,
       plugins: commonConfig.plugins.concat(config.plugins),
     }
-  );
+  )
 }
 
 
@@ -89,5 +125,5 @@ module.exports = function(env) {
     return prodConfig()
   }
 
-  return devConfig();
+  return devConfig()
 }

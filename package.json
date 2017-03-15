@@ -7,6 +7,8 @@
     "webpack": "webpack",
     "start": "nodemon --watch webpack.config.js --exec \"webpack-dev-server --port 9999 --env development\"",
     "build": "webpack --env production",
+    "lint": "eslint . --cache",
+    "autofixlint": "eslint . --cache --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +21,9 @@
   "author": "tim huang",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^3.17.1",
+    "eslint-loader": "^1.6.3",
+    "eslint-plugin-react": "^6.10.0",
     "html-webpack-plugin": "^2.28.0",
     "nodemon": "^1.11.0",
     "webpack": "^2.2.1",
