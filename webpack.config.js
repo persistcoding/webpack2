@@ -10,7 +10,7 @@ const PATHS = {
   build: path.join(__dirname, "build")
 }
 
-const commonConfig = {
+const config = {
   entry: {
     app: PATHS.app
   },
@@ -23,22 +23,45 @@ const commonConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Webpack demo5"
+      title: "Webpack demo6"
     })
   ]
 }
 
+//commonConfig
+function commonConfig() {
+  return merge([
+    config,
+    parts.lintJavaScript(),
+    parts.loadCSS({
+      include: /app/,
+      exclude: /node_modules/
+    }),
+    parts.loadLess({
+      include: /app/,
+      exclude: /node_modules/
+    }),
+    parts.loadSass({
+      include: /app/,
+      exclude: /node_modules/
+    })
+  ])
+}
+
+
 // production 模式下
 function prodConfig() {
-  return merge(commonConfig, parts.lintJavaScript())
+
+  return merge([
+    commonConfig(),
+  ])
 }
 
 // development 模式下
 function devConfig() {
   return merge([
-    commonConfig,
-    parts.devServer(),
-    parts.lintJavaScript()
+    commonConfig(),
+    parts.devServer()
   ])
 }
 
