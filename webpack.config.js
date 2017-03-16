@@ -23,7 +23,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Webpack demo6"
+      title: "separating-css Webpack"
     })
   ]
 }
@@ -32,7 +32,36 @@ const config = {
 function commonConfig() {
   return merge([
     config,
-    parts.lintJavaScript(),
+    parts.lintJavaScript()
+  ])
+}
+
+
+// production 模式下
+function prodConfig() {
+
+  return merge([
+    commonConfig(),
+    parts.extractCSS({
+      include: /app/,
+      exclude: /node_modules/
+    }),
+    parts.extractLess({
+      include: /app/,
+      exclude: /node_modules/
+    }),
+    parts.extractSass({
+      include: /app/,
+      exclude: /node_modules/
+    })
+  ])
+}
+
+// development 模式下
+function devConfig() {
+  return merge([
+    commonConfig(),
+    parts.devServer(),
     parts.loadCSS({
       include: /app/,
       exclude: /node_modules/
@@ -45,23 +74,6 @@ function commonConfig() {
       include: /app/,
       exclude: /node_modules/
     })
-  ])
-}
-
-
-// production 模式下
-function prodConfig() {
-
-  return merge([
-    commonConfig(),
-  ])
-}
-
-// development 模式下
-function devConfig() {
-  return merge([
-    commonConfig(),
-    parts.devServer()
   ])
 }
 

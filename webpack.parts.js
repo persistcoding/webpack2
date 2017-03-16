@@ -1,5 +1,8 @@
 const  webpack = require('webpack')
-// const exports = module.exports;
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+
+
 
 exports.devServer = function() {
     return {
@@ -178,5 +181,128 @@ exports.loadSass = function({include, exclude}) {
         }
       ]
     }
+  }
+}
+
+exports.extractCSS = function({ include, exclude }) {
+  const plugin = new ExtractTextPlugin({
+    filename: '[name]-[contenthash].css'
+  })
+
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          include,
+          exclude,
+          use: plugin.extract({
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: true,
+                  localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                  importLoaders: 1
+                }
+              },
+              {
+                loader: 'postcss-loader',
+                options: {
+                  plugins: () => ([
+                    require('autoprefixer'),
+                    require('precss')
+                  ])
+                }
+              }
+            ],
+            fallback: 'style-loader'
+          })
+        }
+      ]
+    },
+    plugins: [ plugin ]
+  }
+}
+
+exports.extractLess = function({ include, exclude }) {
+  const plugin = new ExtractTextPlugin({
+    filename: '[name]-[contenthash].css'
+  })
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.less$/,
+          include,
+          exclude,
+          use: plugin.extract({
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: true,
+                  localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                  importLoaders: 2
+                }
+              },
+              {
+                loader: 'postcss-loader',
+                options: {
+                  plugins: () => ([
+                    require('autoprefixer'),
+                    require('precss')
+                  ])
+                }
+              },
+              'less-loader'
+            ],
+            fallback: 'style-loader'
+          })
+        }
+      ]
+    },
+    plugins: [ plugin ]
+  }
+}
+
+exports.extractSass = function({ include, exclude }) {
+  const plugin = new ExtractTextPlugin({
+    filename: '[name]-[contenthash].css'
+  })
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.scss$/,
+          include,
+          exclude,
+          use: plugin.extract({
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: true,
+                  localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                  importLoaders: 2
+                }
+              },
+              {
+                loader: 'postcss-loader',
+                options: {
+                  plugins: () => ([
+                    require('autoprefixer'),
+                    require('precss')
+                  ])
+                }
+              },
+              'sass-loader'
+            ],
+            fallback: 'style-loader'
+          })
+        }
+      ]
+    },
+    plugins: [ plugin ]
   }
 }
