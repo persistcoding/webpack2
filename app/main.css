@@ -6,3 +6,24 @@ body {
   background: red;
   display: flex;
 }
+.a{
+  background: #aaa;
+}
+.b{
+  background: #bbb;
+}
+.c{
+  background: #ccc;
+}
+.d{
+  background: #ddd;
+}
+.e{
+  background: #eee;
+}
+.f{
+  background: #fff;
+}
+.g{
+  background: #000;
+}

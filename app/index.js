@@ -7,4 +7,4 @@ import component from "./component"
 
 document.body.appendChild(component("Hello world 1", cssStyles.redButton))
 document.body.appendChild(component("Hello world 2", lessStyles.redButton))
-document.body.appendChild(component("Hello world 2", sassStyles.redButton))
+document.body.appendChild(component("Hello world 3", sassStyles.redButton))

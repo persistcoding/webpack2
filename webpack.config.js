@@ -23,7 +23,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "separating-css Webpack"
+      title: "eliminating-unused-css Webpack"
     })
   ]
 }
@@ -40,7 +40,7 @@ function commonConfig() {
 // production 模式下
 function prodConfig() {
 
-  return merge([
+  const result = merge([
     commonConfig(),
     parts.extractCSS({
       include: /app/,
@@ -53,8 +53,10 @@ function prodConfig() {
     parts.extractSass({
       include: /app/,
       exclude: /node_modules/
-    })
-  ])
+    }),
+    // parts.purifycss()
+  ]);
+  return result;
 }
 
 // development 模式下

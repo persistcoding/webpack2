@@ -1,7 +1,8 @@
 const  webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-
-
+const PurifyCSSPlugin = require('purifycss-webpack')
+const glob = require('glob')
+const path = require("path")
 
 
 exports.devServer = function() {
@@ -306,3 +307,15 @@ exports.extractSass = function({ include, exclude }) {
     plugins: [ plugin ]
   }
 }
+
+
+// purifycss-webpack, 运用的场景太过于简单，不能同时和css modules同时使用，他们之间需要桥梁
+// exports.purifycss = function() {
+//   return {
+//     plugins: [
+//       new PurifyCSSPlugin({
+//         paths: glob.sync(path.join(__dirname, 'app/*.js')),
+//       })
+//     ]
+//   }
+// }
